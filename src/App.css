@@ -1,0 +1,437 @@
+/* ------------------------------------------------------------------
+   Carousel hero — layout + components (brand-matched: cream + black + serif)
+------------------------------------------------------------------ */
+
+.page {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cursor spotlight — a soft darker-warm tint that follows the pointer */
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    340px circle at var(--cx, 50%) var(--cy, 30%),
+    rgba(20, 18, 16, 0.16),
+    rgba(20, 18, 16, 0.07) 40%,
+    transparent 72%
+  );
+}
+.glow-on .cursor-glow {
+  opacity: 1;
+}
+/* Keep all page content above the glow layer */
+.nav,
+.hero {
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 28px;
+}
+@media (max-width: 640px) {
+  .container {
+    padding-inline: 18px;
+  }
+}
+
+/* ---- Nav ---- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(120%) blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.nav__in {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  height: 72px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  margin-right: auto;
+}
+.brand__mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--black);
+  display: grid;
+  place-items: center;
+  color: var(--bg);
+}
+.nav__links {
+  display: flex;
+  gap: 28px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.nav__links a {
+  position: relative;
+}
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1.5px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav__links a:hover::after {
+  transform: scaleX(1);
+}
+@media (max-width: 860px) {
+  .nav__links {
+    display: none;
+  }
+}
+
+/* ---- Buttons (black pills, like the live site) ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+.btn--primary {
+  background: var(--black);
+  color: var(--bg);
+}
+.btn--primary:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.btn--ghost:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+.btn--lg {
+  padding: 15px 30px;
+  font-size: 16px;
+}
+
+/* Recurring shine sweep (hero CTA only) — a soft highlight travels L→R, then rests */
+.btn--shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn--shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  animation: shine 4.5s ease-in-out infinite;
+}
+@keyframes shine {
+  0% { transform: translateX(-120%); }
+  22% { transform: translateX(120%); } /* sweep across in the first ~1s */
+  100% { transform: translateX(120%); } /* rest until the next loop */
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn--shine::after {
+    animation: none;
+    display: none;
+  }
+}
+
+/* ---- Hero ---- */
+.hero {
+  flex: 1;
+}
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 60px;
+  align-items: center;
+  padding-block: 92px 76px;
+}
+@media (max-width: 960px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding-block: 56px 48px;
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1.5px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  line-height: 1.02;
+  margin: 18px 0 0;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+.hero__sub {
+  font-size: clamp(1.05rem, 2.1vw, 1.22rem);
+  line-height: 1.5;
+  color: var(--body);
+  margin-top: 22px;
+  max-width: 36ch;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.points {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15.5px;
+  color: var(--body);
+}
+.points .tick {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  display: grid;
+  place-items: center;
+}
+
+/* ---- Product visual (plausible, invented UI) ---- */
+.visual {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease;
+  will-change: transform;
+}
+.visual:hover {
+  box-shadow: 0 1px 2px rgba(20, 18, 16, 0.05),
+    0 34px 60px -18px rgba(20, 18, 16, 0.26);
+}
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.card__who {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+.card__who b {
+  color: var(--ink);
+  font-size: 15px;
+}
+.card__who div span {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 12%, var(--panel));
+  padding: 5px 11px;
+  border-radius: 999px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 2px;
+  font-size: 14px;
+  color: var(--ink);
+}
+.step .dot {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--ok);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+}
+.step .dot--pending {
+  background: var(--panel);
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+}
+.step .meta {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.timer {
+  margin-top: 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+}
+.timer b {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 30px;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.timer span {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.compare {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---- Paper drift band (Three.js) ---- */
+.paper-drift {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 300px;
+  margin-top: -24px;
+  overflow: hidden;
+}
+.paper-drift canvas {
+  display: block;
+}
+@media (max-width: 640px) {
+  .paper-drift {
+    height: 220px;
+  }
+}
+
+/* ---- Entrance motion (resting state is fully visible) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .reveal.d1 { animation-delay: 0.05s; }
+  .reveal.d2 { animation-delay: 0.12s; }
+  .reveal.d3 { animation-delay: 0.19s; }
+  .reveal.d4 { animation-delay: 0.26s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
