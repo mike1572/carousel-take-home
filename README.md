@@ -68,9 +68,7 @@ src/
 
 ## AI log
 
-**Tool:** Claude Code (Anthropic). Chosen for full control over clean, readable, handoff-ready
-code and a real repository, rather than a black-box UI generator, and because the role is
-about using coding agents well, not just shipping output.
+**Tool:** Claude Code (Anthropic).
 
 **Key prompts**
 
